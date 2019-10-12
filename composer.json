@@ -2,7 +2,7 @@
     "name": "alibayat/laravel-categorizable",
 	"description": "Implementing Categories system for Laravel's Eloquent models.",
 	"license": "MIT",
-	"keywords": ["Laravel", "Eloquent", "Laravel Categorizable"],
+	"keywords": ["Laravel", "Eloquent", "Laravel-Categorizable", "Laravel Categorizable"],
 	"authors": [
 		{
 		    "name": "Ali Bayat",
