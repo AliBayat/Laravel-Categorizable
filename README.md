@@ -7,8 +7,7 @@ This Package enables you to Categorize your Eloquent Models. just use the trait 
 
 
 ### Requirements
-PHP 7.2+
-Laravel 7.0+
+- PHP 7.2+
 
 #### Composer Install
 
