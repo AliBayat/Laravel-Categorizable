@@ -168,6 +168,14 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
     // return array [id => name]
 ```
 
+### List of categories IDs attached to the post (array)
+```php
+    $post->categoriesId();
+
+
+    // return array
+```
+
 ### Get all posts attached to given category (collection)
 ```php
     $categoryPosts = Category::find(1)
