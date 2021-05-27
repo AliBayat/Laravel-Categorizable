@@ -44,6 +44,15 @@ trait Categorizable
                     ->toArray();
     }
 
+    /**
+     * @return collection (related categories ids)
+     */
+    public function categoriesId()
+    {
+        return $this->categories()
+                    ->pluck('id');
+    }    
+    
 
     /**
      * @param $categories
