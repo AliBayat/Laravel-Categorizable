@@ -202,37 +202,37 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
 
 ### parent Relationship
 ```php
-    $comment = Post::first()->comments()->first();
+    $category = Post::first()->categories()->first();
     
-    $comment->parent;
-    // return the comment's parent if available
+    $category->parent;
+    // return the category's parent if available
 
 ```
 
 ### children Relationship
 ```php
-    $comment = Post::first()->comments()->first();
+    $category = Post::first()->categories()->first();
     
-    $comment->children;
-    // return the comment's children if any
+    $category->children;
+    // return the category's children if any
 
 ```
 
 ### ancestors Relationship
 ```php
-    $comment = Post::first()->comments()->first();
+    $category = Post::first()->categories()->first();
     
-    $comment->ancestors;
-    // return the comment's ancestors if any
+    $category->ancestors;
+    // return the category's ancestors if any
 
 ```
 
 ### descendants Relationship
 ```php
-    $comment = Post::first()->comments()->first();
+    $category = Post::first()->categories()->first();
     
-    $comment->descendants;
-    // return the comment's descendants if any
+    $category->descendants;
+    // return the category's descendants if any
 
 ```
 
