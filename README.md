@@ -209,6 +209,15 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
 
 ```
 
+### children Relationship
+```php
+    $comment = Post::first()->comments()->first();
+    
+    $comment->children;
+    // return the comment's children if any
+
+```
+
 
 #### Credits
 
