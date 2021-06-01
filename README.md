@@ -227,6 +227,15 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
 
 ```
 
+### descendants Relationship
+```php
+    $comment = Post::first()->comments()->first();
+    
+    $comment->descendants;
+    // return the comment's descendants if any
+
+```
+
 #### Credits
 
  - Ali Bayat - <ali.bayat@live.com>
