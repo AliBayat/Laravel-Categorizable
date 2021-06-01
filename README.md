@@ -186,6 +186,9 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
     // return collection
 ```
 
+---
+
+## Relationships
 
 ### categories() Relationship
 ```php
@@ -196,6 +199,16 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
      // you have access to categories() relationship in case you need eager loading
     
 ```
+
+### parent Relationship
+```php
+    $comment = Post::first()->comments()->first();
+    
+    $comment->parent;
+    // return the comment's parent if available
+
+```
+
 
 #### Credits
 
