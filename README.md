@@ -51,7 +51,7 @@ class Post extends Model
 
 ```
 
-### Usage
+## Usage
 first of all we need to create some Category to work with. Laravel Categorizable package relies on another package called [laravel-nestedset](https://github.com/lazychaser/laravel-nestedset) that is responsible for creating, updating, removing and retrieving single or nested categories.
 Here i demonstrate how to create categories and assign one as the other's child.. but you can always refer to package's repository for full documentation.
 https://github.com/lazychaser/laravel-nestedset
