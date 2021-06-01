@@ -218,6 +218,14 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
 
 ```
 
+### ancestors Relationship
+```php
+    $comment = Post::first()->comments()->first();
+    
+    $comment->ancestors;
+    // return the comment's ancestors if any
+
+```
 
 #### Credits
 
