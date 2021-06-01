@@ -10,7 +10,7 @@ This Package enables you to Categorize your Eloquent Models. just use the trait 
 - PHP 7.2+
 - Laravel 7+
 
-#### Composer Install
+## Installation
 
 	composer require alibayat/laravel-categorizable
 
