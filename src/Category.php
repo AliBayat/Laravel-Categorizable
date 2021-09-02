@@ -60,9 +60,53 @@ class Category extends Model
         return static::findOrFail($id);
     }
 
-
+    /**
+     * Spatie sluggable options
+     */    
     public function getSlugOptions(): SlugOptions
     {
-        return SlugOptions::create()->generateSlugsFrom('name')->saveSlugsTo('slug');
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
     }
+    
+    /**
+     * Generate a non unique slug for the record.
+     */
+    protected function generateNonUniqueSlug(): string
+    {
+        if ($this->hasCustomSlugBeenUsed()) {
+            $slugField = $this->slugOptions->slugField;
+
+            return $this->$slugField;
+        }
+
+        return $this->persianSlug(
+            $this->getSlugSourceString(), 
+            $this->slugOptions->slugSeparator
+        );
+    }
+    
+    /**
+     * Generate the persian slug if necessary.
+     */
+    protected function persianSlug($title, $separator = '-'): string
+    {
+        $title = trim($title);
+        $title = mb_strtolower($title, 'UTF-8');
+
+        $title = str_replace('‌', $separator, $title);
+
+        $title = preg_replace(
+            '/[^a-z0-9_\s\-اآؤئبپتثجچحخدذرزژسشصضطظعغفقكکگلمنوةيإأۀءهی۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩]/u',
+            '',
+            $title
+        );
+
+        $title = preg_replace('/[\s\-_]+/', ' ', $title);
+        $title = preg_replace('/[\s_]/', $separator, $title);
+        $title = trim($title, $separator);
+
+        return $title;
+    }    
 }
