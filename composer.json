@@ -14,7 +14,7 @@
         "illuminate/database": "^7.0|^8.0",
         "illuminate/support": "^7.0|^8.0",
         "kalnoy/nestedset": "^6.0",
-        "spatie/laravel-sluggable": "^3.*"
+        "spatie/laravel-sluggable": "^2.2"
     },
     "autoload": {
         "psr-4": {
