@@ -30,7 +30,7 @@ class Category extends Model
     }
     
     /**
-     * @return collection
+     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function entries(string $class): MorphToMany
     {
