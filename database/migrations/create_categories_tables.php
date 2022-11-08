@@ -14,7 +14,7 @@ class CreateCategoriesTables extends Migration
 {
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create(config('laravel-categorizable.table_names.main_table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
@@ -23,15 +23,18 @@ class CreateCategoriesTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('categories_models', function (Blueprint $table) {
+        Schema::create(config('laravel-categorizable.table_names.morph_table'), function (Blueprint $table) {
             $table->integer('category_id');
             $table->morphs('model');
         });
+
+
+        
     }
 
     public function down()
     {
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('categories_models');
+        Schema::dropIfExists(config('laravel-categorizable.table_names.main_table'));
+        Schema::dropIfExists(config('laravel-categorizable.table_names.morph_table'));
     }
 }
