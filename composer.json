@@ -10,11 +10,11 @@
 		}
 	],
     "require": {
-        "php": "^7.2|^8.0",
-        "illuminate/database": "^7.0|^8.0",
-        "illuminate/support": "^7.0|^8.0",
+        "php": "^7.4|^8.0|^8.1",
+        "illuminate/database": "^7.30.5|^8.40.0|^9.0",
+        "illuminate/support": "^7.30.5|^8.40.0|^9.0",
         "kalnoy/nestedset": "^6.0",
-        "spatie/laravel-sluggable": "^2.2"
+        "spatie/laravel-sluggable": "^2.2|^3.3"
     },
     "autoload": {
         "psr-4": {

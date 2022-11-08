@@ -7,7 +7,7 @@ This Package enables you to Categorize your Eloquent Models. just use the trait 
 
 
 ### Requirements
-- PHP 7.2+
+- PHP 7.4+
 - Laravel 7+
 
 ## Installation
@@ -176,14 +176,22 @@ $frontendCategory = Category::find(3);		// 'FrontEnd'
     // return array
 ```
 
-### Get all posts attached to given category (collection)
+### Get all posts attached to given category (MorphToMany)
 ```php
     $categoryPosts = Category::find(1)
-	    ->entries(Post::class)
-	    ->get();
+	    ->entries(Post::class);
 
 
-    // return collection
+    // return MorphToMany
+```
+
+### Get all posts attached to given category or it's children (Builder)
+```php
+    $categoryAllPosts = Category::find(1)
+	    ->allEntries(Post::class);
+
+
+    // return Builder
 ```
 
 ---

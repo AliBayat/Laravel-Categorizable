@@ -28,13 +28,30 @@ class Category extends Model
     {
         return $this->morphTo();
     }
+    
     /**
-     * @return collection
+     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
      */
     public function entries(string $class): MorphToMany
     {
         return $this->morphedByMany($class, 'model', 'categories_models');
     }
+    
+    /**
+     * @returns : Illuminate\Database\Eloquent\Builder
+     */
+    public function allEntries($class)
+    {
+        $table = app($class)->getTable();
+
+        return $class::join('categories_models', 'categories_models.model_id', '=', "{$table}.id")
+            ->where('categories_models.category_id', $this->id)
+            ->orWhereIn(
+                'categories_models.category_id', 
+                $this->descendants()->pluck('id')->toArray()
+            )
+            ->select("{$table}.*", 'category_id');
+    }    
 
     /**
      * @return array
@@ -94,15 +111,12 @@ class Category extends Model
     {
         $title = trim($title);
         $title = mb_strtolower($title, 'UTF-8');
-
         $title = str_replace('‌', $separator, $title);
-
         $title = preg_replace(
             '/[^a-z0-9_\s\-اآؤئبپتثجچحخدذرزژسشصضطظعغفقكکگلمنوةيإأۀءهی۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩]/u',
             '',
             $title
         );
-
         $title = preg_replace('/[\s\-_]+/', ' ', $title);
         $title = preg_replace('/[\s_]/', $separator, $title);
         $title = trim($title, $separator);
