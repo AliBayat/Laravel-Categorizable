@@ -15,7 +15,7 @@ class CategorizableServiceProvider extends ServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             __DIR__.'/../database/migrations/create_categories_tables.php' => database_path('migrations/'.date('Y_m_d_His', time()).'_create_categories_tables.php'),
@@ -29,7 +29,7 @@ class CategorizableServiceProvider extends ServiceProvider
     /**
      * Register the application services.
      */
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/laravel-categorizable.php', 'laravel-categorizable');
     }

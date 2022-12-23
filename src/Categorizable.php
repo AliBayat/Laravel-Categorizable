@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace AliBayat\LaravelCategorizable;
 
-use AliBayat\LaravelCategorizable\Category;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 trait Categorizable
@@ -30,55 +29,48 @@ trait Categorizable
         return $this->morphToMany(
             $this->categorizableModel(),
             'model',
-            'categories_models'
+	        config('laravel-categorizable.table_names.morph_table')
         );
     }
 
     /**
-     * @return array (good choice for dropdowns)
+     * @return array
      */
     public function categoriesList(): array
     {
-        return $this->categories()
-                    ->pluck('name', 'id')
-                    ->toArray();
+        return $this->categories()->pluck('name', 'id')->toArray();
     }
-
-    /**
-     * @return collection (related categories ids)
-     */
-    public function categoriesId()
+	
+	/**
+	 * @return array
+	 */
+    public function categoriesIds(): array
     {
-        return $this->categories()
-                    ->pluck('id');
-    }    
-    
-
-    /**
-     * @param $categories
-     *
-     * @return instance
-     */
-    public function attachCategory(...$categories)
+        return $this->categories()->pluck('id')->toArray();
+    }
+	
+	
+	/**
+	 * @param ...$categories
+	 * @return $this
+	 */
+    public function attachCategory(...$categories): static
     {
         $categories = collect($categories)
             ->flatten()
-            ->map(function ($category) {
-                return $this->getStoredCategory($category);
-            })
+            ->map(fn ($category) => $this->getStoredCategory($category))
             ->all();
 
         $this->categories()->saveMany($categories);
 
         return $this;
     }
-
-    /**
-     * @param $category
-     *
-     * @return mixed
-     */
-    public function detachCategory($category)
+	
+	/**
+	 * @param $category
+	 * @return void
+	 */
+    public function detachCategory($category): void
     {
         $this->categories()->detach($this->getStoredCategory($category));
     }
@@ -88,20 +80,19 @@ trait Categorizable
      *
      * @return mixed
      */
-    public function syncCategories(...$categories)
+    public function syncCategories(...$categories): static
     {
         $this->categories()->detach();
 
         return $this->attachCategory($categories);
     }
-
-
-    /**
-     * @param $categories . list of params or an array of parameters
-     *
-     * @return bool
-     */
-    public function hasCategory($categories)
+	
+	
+	/**
+	 * @param $categories
+	 * @return bool
+	 */
+    public function hasCategory($categories): bool
     {
         if (is_string($categories)) {
             return $this->categories->contains('name', $categories);
@@ -123,23 +114,21 @@ trait Categorizable
 
         return $categories->intersect($this->categories)->isNotEmpty();
     }
-
-    /**
-     * @param $categories
-     *
-     * @return bool
-     */
-    public function hasAnyCategory($categories)
+	
+	/**
+	 * @param $categories
+	 * @return bool
+	 */
+    public function hasAnyCategory($categories): bool
     {
         return $this->hasCategory($categories);
     }
-
-    /**
-     * @param $categories . list of params or an array of parameters
-     *
-     * @return mixed
-     */
-    public function hasAllCategories($categories)
+	
+	/**
+	 * @param $categories
+	 * @return bool
+	 */
+    public function hasAllCategories($categories): bool
     {
         if (is_string($categories)) {
             return $this->categories->contains('name', $categories);
@@ -155,13 +144,12 @@ trait Categorizable
 
         return $categories->intersect($this->categories->pluck('name')) === $categories;
     }
-
-
-    /**
-     * @param $category
-     *
-     * @return instance
-     */
+	
+	
+	/**
+	 * @param $category
+	 * @return Category
+	 */
     protected function getStoredCategory($category): Category
     {
         if (is_numeric($category)) {
