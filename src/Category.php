@@ -8,50 +8,56 @@ declare(strict_types=1);
 
 namespace AliBayat\LaravelCategorizable;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\{Builder, Model, Relations\MorphTo, Relations\MorphToMany};
+use Exception;
 use Kalnoy\Nestedset\NodeTrait;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
+use Spatie\Sluggable\{HasSlug, SlugOptions};
+use RuntimeException;
 
 class Category extends Model
 {
-    use NodeTrait, HasSlug;
-
+    use NodeTrait;
+	use HasSlug;
+	
+	/**
+	 * @var string[]
+	 */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-
-    /**
-     * @return mixed
-     */
+	
+	/**
+	 * @return MorphTo
+	 */
     public function categories(): MorphTo
     {
         return $this->morphTo();
     }
-    
-    /**
-     * @return Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
+	
+	/**
+	 * @param string $class
+	 * @return MorphToMany
+	 */
     public function entries(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'model', 'categories_models');
+        return $this->morphedByMany($class, 'model', config('laravel-categorizable.table_names.morph_table'));
     }
-    
-    /**
-     * @returns : Illuminate\Database\Eloquent\Builder
-     */
-    public function allEntries($class)
+	
+	/**
+	 * @param string $class
+	 * @return Builder
+	 * @throws Exception
+	 */
+    public function allEntries(string $class): Builder
     {
         $table = app($class)->getTable();
-
-        return $class::join('categories_models', 'categories_models.model_id', '=', "{$table}.id")
-            ->where('categories_models.category_id', $this->id)
-            ->orWhereIn(
-                'categories_models.category_id', 
-                $this->descendants()->pluck('id')->toArray()
-            )
-            ->select("{$table}.*", 'category_id');
-    }    
+		$morphTable = config('laravel-categorizable.table_names.morph_table');
+		if (!class_exists($class)) {
+			throw new RuntimeException('the given model does not exist.');
+		}
+		return $class::join($morphTable, $morphTable . '.model_id', $table . '.id')
+			->where($morphTable . '.category_id', $this->id)
+			->orWhereIn($morphTable . '.category_id', $this->descendants()->pluck('id')->toArray())
+			->select($table . '.*', 'category_id');
+    }
 
     /**
      * @return array
@@ -105,9 +111,9 @@ class Category extends Model
     }
     
     /**
-     * Generate the persian slug if necessary.
+     * Fixes the persian slug if necessary.
      */
-    protected function persianSlug($title, $separator = '-'): string
+    protected function persianSlug($title, string $separator = '-'): string
     {
         $title = trim($title);
         $title = mb_strtolower($title, 'UTF-8');
@@ -119,8 +125,6 @@ class Category extends Model
         );
         $title = preg_replace('/[\s\-_]+/', ' ', $title);
         $title = preg_replace('/[\s_]/', $separator, $title);
-        $title = trim($title, $separator);
-
-        return $title;
+	    return trim($title, $separator);
     }    
 }
