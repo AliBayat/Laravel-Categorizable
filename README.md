@@ -13,7 +13,9 @@ There is also a `Category` model which you can use directly or extend it in your
 
 ## Installation
 
-	composer require alibayat/laravel-categorizable
+```bash
+composer require alibayat/laravel-categorizable
+```
 
 #### Publish and Run the migrations
 
@@ -48,7 +50,6 @@ class Post extends Model
 {
     use Categorizable;
 }
-
 ```
 
 ## Usage
@@ -77,7 +78,7 @@ $post = Post::first();
 
 ### Multiple category structure
 
-there are times that you may wish to have different category structures for different models. in that's the case you can also pass in a `type` parameter while creating a category. by default, type is set to `default`. while having a type you can also leverage Eloquent model scopes to filter categories with ease.      
+there are times that you may wish to have different category structures for different models. in that's the case you can also pass in a `type` parameter while creating a category. by default, type is set to `default`. while having a type you can also leverage Eloquent model scopes to filter categories with ease.
 
 ### Create a Tree while creating new categories
 
@@ -105,7 +106,7 @@ $categoryWithChildAndGrandchild = Category::create([
 ### Detach the post from a category
 
 ```php
-    $post->detachCategory($php); 
+    $post->detachCategory($php);
 ```
 
 ### Attach the post to list of categories
@@ -114,13 +115,13 @@ $categoryWithChildAndGrandchild = Category::create([
     $post->syncCategories([
 	    $php,
 	    $backEnd
-    ]); 
+    ]);
 ```
 
 ### Detach the post from all categories
 
 ```php
-    $post->syncCategories([]); 
+    $post->syncCategories([]);
 ```
 
 ### Sync the categories attached to a post
@@ -165,7 +166,7 @@ $categoryWithChildAndGrandchild = Category::create([
 ---
 
 ## Methods
-On the Base `Category` Model (or any other model that extends this class), you'll have access to various methods: 
+On the Base `Category` Model (or any other model that extends this class), you'll have access to various methods:
 
 ```php
 $result = Category::ancestorsOf($id);
@@ -197,7 +198,7 @@ $bool = Category::isBroken();
 $data = Category::countErrors();
 Category::fixTree();
 ```
-full documentation for these methods is available at `laravel-nestedset` package's readme. 
+full documentation for these methods is available at `laravel-nestedset` package's readme.
 
 ---
 
@@ -232,11 +233,11 @@ full documentation for these methods is available at `laravel-nestedset` package
 
 ## Tests
 this package comes with unit and feature tests as well (a total of 47 tests, 169 assertions) to ensure the provided features work as they should, you can run tests by the following composer command:
-```
-    composer test
+```bash
+composer test
 ```
 
-#### Credits
+## Credits
 
- - Ali Bayat - <ali.bayat@live.com>
- - Thanks to all contributors
+ - [Ali Bayat](https://github.com/AliBayat)
+ - [All Contributors](../../contributors)
